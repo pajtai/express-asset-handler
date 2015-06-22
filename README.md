@@ -10,7 +10,7 @@ Works only with plain js and css files.
 
 To use require the npm and call with the options object.
 
-```
+```javascript
 // Example usage
 var assetHandlerMiddleware = require('express-asset-handler')({
     assetsJson : require('./../assets.json'),                               // the json object that describes your assets
@@ -49,8 +49,8 @@ If `options.optimize` is false, the above will put two script and style tags eac
 file referenced in the json.
 
 ```html
-<link href="/css/style1.css" rel="stylesheet>
-<link href="/css/style2.css" rel="stylesheet>
+<link href="/css/style1.css" rel="stylesheet">
+<link href="/css/style2.css" rel="stylesheet">
 <script src="/js/theme1.js"></script>
 <script src="/js/theme2.js"></script>
 ```
