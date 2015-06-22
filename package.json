@@ -1,0 +1,26 @@
+{
+  "name": "express-asset-handler",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pajtai/express-asset-handler.git"
+  },
+  "keywords": [
+    "express",
+    "assets",
+    "minification",
+    "concatenation",
+    "optimization"
+  ],
+  "author": "Peter Ajtai <peter.ajtai@thinksolid.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pajtai/express-asset-handler/issues"
+  },
+  "homepage": "https://github.com/pajtai/express-asset-handler"
+}
