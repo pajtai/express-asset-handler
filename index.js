@@ -49,8 +49,8 @@ function configure(options) {
             built = true;
 
             BB.join(
-                minify(options, options.assetsJson.css,  'clean-css',    '.css'),
-                minify(options, options.assetsJson.js,   'uglifyjs',     '.js' ),
+                minify(options, options.assetsJson.css,  'clean-css',    '.css', {}),
+                minify(options, options.assetsJson.js,   'uglifyjs',     '.js' , { mangle : false, compress : true }),
                 function(resultsCss, resultsJs) {
 
                     files.css = resultsCss.reduce(reduceFiles, {});
@@ -64,7 +64,7 @@ function configure(options) {
     };
 }
 
-function minify(options, assetsJsonObject, minType, suffix) {
+function minify(options, assetsJsonObject, minType, suffix, moreOptions) {
 
     return BB
         .all(_.map(assetsJsonObject, function(group, name) {
@@ -74,14 +74,17 @@ function minify(options, assetsJsonObject, minType, suffix) {
 
             return new BB(function(resolve) {
 
-                new Compressor.minify({
-                    type        : minType,
-                    fileIn      : _.map(group, function(file) {
-                                    return path.join(options.baseAssetsDir, file);
+                Compressor.minify({
+                    compressor : minType,
+                    input : _.map(group, function(file) {
+                        return path.join(options.baseAssetsDir, file);
                     }),
-                    fileOut     : fileOut,
-                    tempPath    : options.tmpDir,
-                    callback    : function(err, file) {
+                    output : fileOut,
+                    options : moreOptions,
+                    // tempPath : options.tmpDir,
+                    callback : function(err, file) {
+                        console.log('file:', file.slice(0,50));
+
 
                         var hash = require('crypto').createHash('md5').update(file).digest('hex');
 
@@ -98,11 +101,17 @@ function minify(options, assetsJsonObject, minType, suffix) {
                         fs
                             .renameAsync(fileOut, newFile)
                             .then(function() {
+                                // TODO: remove this
+                                if ('uglifyjs' === minType) {
+                                    fs.writeFileSync(newFile, file);
+                                }
                                 resolve({
                                     name : name,
                                     hash : hash
                                 });
                             });
+
+
                     }
                 });
             });
